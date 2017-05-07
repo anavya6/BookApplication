@@ -109,44 +109,34 @@ public class BookRepository {
 		}
 	}
 
-	public List<Book> searchBook(Book book) {
+	public List<Book> searchBook(Book book) throws Exception {
 
 		// Configure the session factory
 		configureSessionFactory();
 
-		try {
-			session = sessionFactory.openSession();
-			tx = session.beginTransaction();
+		session = sessionFactory.openSession();
+		tx = session.beginTransaction();
 
-			String sql = "SELECT * FROM Book WHERE name =:name or isbn =:isbn or genre =:genre or type =:type or author =:author or publicationDate =:publicationDate or edition =:edition or price =:price";
+		String sql = "SELECT * FROM Book WHERE name =:name or isbn =:isbn or genre =:genre or type =:type or author =:author or publicationDate =:publicationDate or edition =:edition or price =:price";
 
-			SQLQuery query = session.createSQLQuery(sql);
-			query.addEntity(Book.class);
-			query.setParameter("name", book.getName());
-			query.setParameter("isbn", book.getIsbn());
-			query.setParameter("genre", book.getGenre());
-			query.setParameter("name", book.getName());
-			query.setParameter("type", book.getType());
-			query.setParameter("author", book.getAuthor());
-			query.setParameter("publicationDate", book.getPublicationDate());
-			query.setParameter("edition", book.getEdition());
-			query.setParameter("price", book.getPrice());
+		SQLQuery query = session.createSQLQuery(sql);
+		query.addEntity(Book.class);
+		query.setParameter("name", book.getName());
+		query.setParameter("isbn", book.getIsbn());
+		query.setParameter("genre", book.getGenre());
+		query.setParameter("name", book.getName());
+		query.setParameter("type", book.getType());
+		query.setParameter("author", book.getAuthor());
+		query.setParameter("publicationDate", book.getPublicationDate());
+		query.setParameter("edition", book.getEdition());
+		query.setParameter("price", book.getPrice());
 
-			List<Book> bookList = query.list();
+		List<Book> bookList = query.list();
 
-			for (Book book1 : bookList) {
-				System.out.println("Name:" + book1.getName() + book1.getIsbn());
-			}
-
-			return bookList;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			if (session != null) {
-				session.close();
-			}
+		for (Book book1 : bookList) {
+			System.out.println("Name:" + book1.getName() + book1.getIsbn());
 		}
-		return null;
 
+		return bookList;
 	}
 }
